@@ -9,13 +9,12 @@
   </parent>
   <artifactId>spring-boot-example</artifactId>
   <groupId>org.alliance.rebel</groupId>
-  <name>Spring Boot Tomcat Sample</name>
-  <description>Spring Boot Tomcat Sample</description>
+  <name>Spring Boot Sample</name>
+  <description>Spring Boot Sample</description>
   <version>1.0-SNAPSHOT</version>
-  <url>http://projects.spring.io/spring-boot/</url>
   <organization>
-    <name>Pivotal Software, Inc.</name>
-    <url>http://www.spring.io</url>
+    <name>Rebel Alliance, Inc.</name>
+    <url>https://github.com/rebel-alliance</url>
   </organization>
   <properties>
     <main.basedir>${basedir}/../..</main.basedir>

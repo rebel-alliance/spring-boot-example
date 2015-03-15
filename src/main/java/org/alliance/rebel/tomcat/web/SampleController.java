@@ -16,22 +16,26 @@
 
 package org.alliance.rebel.tomcat.web;
 
+import org.alliance.rebel.tomcat.service.HelloWorldService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.alliance.rebel.tomcat.service.HelloWorldService;
-
 @Controller
 public class SampleController {
 
-	@Autowired
-	private HelloWorldService helloWorldService;
+  @Autowired
+  private HelloWorldService helloWorldService;
 
-	@RequestMapping("/")
-	@ResponseBody
-	public String helloWorld() {
-		return this.helloWorldService.getHelloMessage();
-	}
+  private Log log = LogFactory.getLog(getClass());
+
+  @RequestMapping("/hello")
+  @ResponseBody
+  public String helloWorld() {
+    log.info("hello world!");
+    return this.helloWorldService.getHelloMessage();
+  }
 }

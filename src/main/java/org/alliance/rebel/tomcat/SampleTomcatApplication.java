@@ -17,18 +17,17 @@
 package org.alliance.rebel.tomcat;
 
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.catalina.connector.Connector;
+import org.alliance.rebel.tomcat.util.GitProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,10 +38,34 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 public class SampleTomcatApplication {
 
-  private static Log logger = LogFactory.getLog(SampleTomcatApplication.class);
+  private Log logger = LogFactory.getLog(getClass());
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(SampleTomcatApplication.class, args);
+  }
+
+  @Autowired
+  private GitProperties gitProperties;
+
+  @Bean
+  public String buildTime() {
+    System.out.println("BUILD TIME: " + gitProperties.getBuildTime());
+    return gitProperties.getBuildTime();
+  }
+
+  @Bean
+  protected ServletContextListener listener() {
+    return new ServletContextListener() {
+      @Override
+      public void contextDestroyed(ServletContextEvent sce) {
+        logger.info("ServletContext destroyed");
+      }
+
+      @Override
+      public void contextInitialized(ServletContextEvent sce) {
+        logger.info("ServletContext initialized");
+      }
+    };
   }
 
   @Bean
@@ -50,21 +73,6 @@ public class SampleTomcatApplication {
     TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
     tomcat.setTomcatConnectorCustomizers(Arrays.asList(new ConnectorCustomizer()));
     return tomcat;
-  }
-
-  @Bean
-  protected ServletContextListener listener() {
-    return new ServletContextListener() {
-      @Override
-      public void contextInitialized(ServletContextEvent sce) {
-        logger.info("ServletContext initialized");
-      }
-
-      @Override
-      public void contextDestroyed(ServletContextEvent sce) {
-        logger.info("ServletContext destroyed");
-      }
-    };
   }
 
 }

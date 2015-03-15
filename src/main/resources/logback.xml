@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
+    <source>mySource</source>
+    <sourcePath>mySourcePath</sourcePath>
+    <type>myApplication</type>
+    <tags>production</tags>
+    <host>pe0.crawford.localnet</host>
+    <port>6379</port>
+    <key>logstash</key>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="LOGSTASH" />
+  </root>
+
+</configuration>

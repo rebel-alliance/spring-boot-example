@@ -9,7 +9,7 @@ User=core
 ExecStartPre=-/usr/bin/docker stop spring-boot-example
 ExecStartPre=-/usr/bin/docker rm spring-boot-example
 ExecStartPre=/usr/bin/docker pull registry.crawford.localnet/spring-boot-example:1.0.0
-ExecStart=/usr/bin/docker run --name spring-boot-example registry.crawford.localnet/spring-boot-example:1.0.0
+ExecStart=/usr/bin/docker run --name spring-boot-example -p 8080:8080 registry.crawford.localnet/spring-boot-example:1.0.0
 ExecStop=/usr/bin/docker stop spring-boot-example
 
 [X-Fleet]

@@ -16,11 +16,14 @@
 
 package org.alliance.rebel.tomcat.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.alliance.rebel.tomcat.service.HelloWorldService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,4 +41,18 @@ public class SampleController {
     log.info("hello world!");
     return this.helloWorldService.getHelloMessage();
   }
+
+  @RequestMapping(value = "/setSession/{key}/{value}")
+  @ResponseBody
+  public String setSession(@PathVariable("key") String key, @PathVariable("value") String value, HttpSession session) {
+    session.setAttribute(key, value);
+    return session.getId();
+  }
+
+  @RequestMapping(value = "/getSession/{key}")
+  @ResponseBody
+  public String setSession(@PathVariable("key") String key, HttpSession session) {
+    return (String) session.getAttribute(key);
+  }
+
 }

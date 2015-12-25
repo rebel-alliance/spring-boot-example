@@ -32,10 +32,13 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
+@EnableRedisHttpSession
 public class SampleTomcatApplication {
 
   private Log logger = LogFactory.getLog(getClass());
@@ -49,7 +52,7 @@ public class SampleTomcatApplication {
 
   @Bean
   public String buildTime() {
-    System.out.println("BUILD TIME: " + gitProperties.getBuildTime());
+    // System.out.println("BUILD TIME: " + gitProperties.getBuildTime());
     return gitProperties.getBuildTime();
   }
 
@@ -73,6 +76,13 @@ public class SampleTomcatApplication {
     TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
     tomcat.setTomcatConnectorCustomizers(Arrays.asList(new ConnectorCustomizer()));
     return tomcat;
+  }
+
+  @Bean
+  public JedisConnectionFactory connectionFactory() {
+    JedisConnectionFactory factory = new JedisConnectionFactory();
+    factory.setHostName("redis");
+    return factory;
   }
 
 }

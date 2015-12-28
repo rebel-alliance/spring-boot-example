@@ -11,7 +11,8 @@ TAG=$REG/$APP:$VER
 docker build -t $TAG .
 docker push $TAG
 
-docker rm -f spring-boot-example
+docker stop spring-boot-example
+docker rm spring-boot-example
 
 docker run -d --name spring-boot-example -p 8080:8080 $TAG
 

@@ -16,9 +16,13 @@
 
 package org.alliance.rebel.tomcat.web;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.alliance.rebel.tomcat.service.HelloWorldService;
+import org.alliance.rebel.tomcat.util.RequestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +57,16 @@ public class SampleController {
   @ResponseBody
   public String setSession(@PathVariable("key") String key, HttpSession session) {
     return (String) session.getAttribute(key);
+  }
+
+  /**
+   * @param request
+   * @return
+   */
+  @RequestMapping(value = "/showenvironment")
+  @ResponseBody
+  public Map<String, Object> showEnvironment(HttpServletRequest request) {
+    return new RequestUtils().buildRequestDataMap(request);
   }
 
 }

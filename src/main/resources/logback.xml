@@ -8,7 +8,7 @@
     </encoder>
   </appender>
 
-  <appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
+<!--   <appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
     <source>mySource</source>
     <sourcePath>mySourcePath</sourcePath>
     <type>myApplication</type>
@@ -16,10 +16,10 @@
     <host>pe0.crawford.localnet</host>
     <port>6379</port>
     <key>logstash</key>
-  </appender>
+  </appender> -->
 
   <root level="INFO">
-    <appender-ref ref="LOGSTASH" />
+    <appender-ref ref="STDOUT" />
   </root>
 
 </configuration>

@@ -1,25 +1,16 @@
-/*
- * Copyright 2012-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.alliance.rebel.tomcat;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import org.alliance.rebel.tomcat.util.GitProperties;
 import org.apache.commons.logging.Log;
@@ -32,13 +23,10 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-//import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-//import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages="org.alliance")
-//@EnableRedisHttpSession
+@ComponentScan(basePackages = "org.alliance")
 public class SampleTomcatApplication {
 
   private Log logger = LogFactory.getLog(getClass());
@@ -52,7 +40,6 @@ public class SampleTomcatApplication {
 
   @Bean
   public String buildTime() {
-    // System.out.println("BUILD TIME: " + gitProperties.getBuildTime());
     return gitProperties.getBuildTime();
   }
 
@@ -75,14 +62,38 @@ public class SampleTomcatApplication {
   public EmbeddedServletContainerFactory servletContainer() {
     TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
     tomcat.setTomcatConnectorCustomizers(Arrays.asList(new ConnectorCustomizer()));
+    tomcat.setPersistSession(false);
+    tomcat.setRegisterDefaultServlet(false);
     return tomcat;
   }
 
 //  @Bean
-//  public JedisConnectionFactory connectionFactory() {
-//    JedisConnectionFactory factory = new JedisConnectionFactory();
-//    factory.setHostName("redis");
-//    return factory;
+//  public FilterRegistrationBean filterRegistrationBean() {
+//    FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+//    registrationBean.setFilter(new ExceptionForwardFilter());
+//    registrationBean.setOrder(1);
+//    return registrationBean;
 //  }
+
+  public class ExceptionForwardFilter implements Filter {
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+      logger.debug("filter initialized");
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+        ServletException {
+      try {
+        chain.doFilter(request, response);
+      } catch (Exception e) {
+        request.getRequestDispatcher("/error").forward(request, response);
+      }
+    }
+
+    @Override
+    public void destroy() {
+    }
+  }
 
 }

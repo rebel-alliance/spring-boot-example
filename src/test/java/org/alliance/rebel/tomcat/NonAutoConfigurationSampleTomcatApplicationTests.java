@@ -16,6 +16,11 @@
 
 package org.alliance.rebel.tomcat;
 
+import static org.junit.Assert.assertEquals;
+
+import org.alliance.rebel.tomcat.NonAutoConfigurationSampleTomcatApplicationTests.NonAutoConfigurationSampleTomcatApplication;
+import org.alliance.rebel.tomcat.service.HelloWorldService;
+import org.alliance.rebel.tomcat.web.SampleController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,12 +42,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import org.alliance.rebel.tomcat.NonAutoConfigurationSampleTomcatApplicationTests.NonAutoConfigurationSampleTomcatApplication;
-import org.alliance.rebel.tomcat.service.HelloWorldService;
-import org.alliance.rebel.tomcat.web.SampleController;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Basic integration tests for demo application.

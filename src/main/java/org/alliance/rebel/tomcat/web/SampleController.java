@@ -46,6 +46,12 @@ public class SampleController {
     return this.helloWorldService.getHelloMessage();
   }
 
+  @RequestMapping("/testerror")
+  @ResponseBody
+  public String testError() throws Exception {
+    throw new NullPointerException();
+  }
+
   @RequestMapping(value = "/setSession/{key}/{value}")
   @ResponseBody
   public String setSession(@PathVariable("key") String key, @PathVariable("value") String value, HttpSession session) {

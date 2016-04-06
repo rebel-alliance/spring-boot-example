@@ -18,9 +18,9 @@
     <key>logstash</key>
   </appender> -->
 
-  <logger name="org.springframework" level="INFO"/>
+  <logger name="org.springframework" level="ERROR"/>
 
-  <logger name="org.apache.catalina.core.ContainerBase" level="CRITICAL"/>
+  <logger name="org.apache" level="ERROR"/>
 
   <root level="DEBUG">
     <appender-ref ref="STDOUT" />

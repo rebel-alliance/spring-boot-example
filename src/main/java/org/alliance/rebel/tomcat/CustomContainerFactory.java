@@ -20,8 +20,11 @@ public class CustomContainerFactory extends TomcatEmbeddedServletContainerFactor
 
   @Override
   protected void postProcessContext(Context context) {
-    // TODO Auto-generated method stub
     super.postProcessContext(context);
+    addConstraintsForProduction(context);
+  }
+
+  protected void addConstraintsForProduction(Context context) {
     if (System.getenv("VCAP_APPLICATION") != null) {
       // force https when runnning on cfapps.io
       context.addConstraint(buildSecurityConstraint());
